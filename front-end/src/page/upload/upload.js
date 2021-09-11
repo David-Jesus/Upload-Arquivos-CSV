@@ -36,7 +36,6 @@ function Uploads() {
     return (
         <label htmlFor="upload-photo">
         <input
-        //   style={{ display: 'none' }}
           id="upload-photo"
           name="upload-photo"
           type="file"
