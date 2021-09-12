@@ -7,11 +7,6 @@ const router   = Router();
 const client = require("./database/client");
 const multerConfig = multer();
 
-// const code_bar      = String;
-// const description   = String;
-// const price         = Number;
-// const quantity      = Number;
-
 const product = {
     code_bar : String,
     description : String,
@@ -20,13 +15,16 @@ const product = {
 }
 
 router.post("/products", multerConfig.single("file"), async function (req, res) {
-   
     const { file } = req;
+    console.log(file.originalname);
+    return res.json({});
+    ///teste excluir o que está acima
+    // const { file } = req;
     const { buffer } = file;
 
     const readableFile = new Readable();
 
-    //criar um Readabe para fazer a leitura do arquivo onde o que importa do arquivo é o buffer
+    //criar um Readable para fazer a leitura do arquivo onde o que importa do arquivo é o buffer
     readableFile.push(buffer);
     readableFile.push(null);
 
@@ -40,7 +38,7 @@ router.post("/products", multerConfig.single("file"), async function (req, res) 
     for await(let line of productsLine) {
         //para cada linha a quebra/divisão será por cada ',' encontrada
         const productsLineSplit = line.split(",")
-        // console.log(productsLineSplit[0]);
+
         products.push({
             code_bar    : String(productsLineSplit[0]),
             description : String(productsLineSplit[1]),
@@ -59,7 +57,7 @@ router.post("/products", multerConfig.single("file"), async function (req, res) 
             },
         });
     }
-    return res.json(products);
+    // return res.json(products);
 });
 
 module.exports = router;

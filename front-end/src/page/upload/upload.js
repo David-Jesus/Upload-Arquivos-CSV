@@ -1,64 +1,90 @@
 import React, { useState } from 'react';
-import Fab from '@material-ui/core/Fab';
+// import TextField from '@material-ui/core/TextField';
+import './upload.css'
+import jquery from './jquery';
 import api from '../service/api';
 
 function Uploads() {
 
-    // const [codigo, setCodigo] = useState('');
-    // const [titulo, setTitulo] = useState('');
-    // const [isbn, setIsbn] = useState('');
-    // const [quantidade, setQuantidade] = useState('');
-    // const [codigoassunto, setAssunto] = useState('');
+  const [file, setFile] = useState('');
 
-    // async function handleCadastro(e) {
-    //     e.preventDefault();
+  async function handleCadastro(e) {
+    e.preventDefault();
 
-    //     const dados = {
-    //         codigo,
-    //         titulo,
-    //         isbn,
-    //         quantidade,
-    //         codigoassunto
-    //     };
+    const dados = {
+      file
+    };
 
-    //     try {
-    //         console.log(dados);
-    //         const response = await api.put('/book', dados);
-    //         const codigo = response.data.codigo;
-    //         console.log(response.data);
-    //         alert("o id do livro é " + codigo);
-    //         // history.push('/');
-    //     } catch (error) {
-    //         alert("Erro ao cadastrar livro " + error.message);            
-    //     }
-    // }
+    try {
+      console.log(dados);
+      if(file != ""){
 
-    return (
-        <label htmlFor="upload-photo">
-        <input
-          id="upload-photo"
-          name="upload-photo"
-          type="file"
-        />
-       {/*
-        <Fab
-          color="secondary"
-          size="small"
-          component="span"
-          aria-label="add"
-          variant="extended"
-        >
-          <AddIcon /> Upload photo
-        </Fab>
-        <br />
-        <br />
+     
+      const formData = new FormData();
+      formData.append('file', document.getElementById('upload-file').files[0]);
+      const config = {
+        Headers: {
+          'content-type': 'multipart/form-data'
+        }
+      }
+  
+      api.post('products', formData);
+      }
+      else{
+        const span = document.getElementById('no-file');
+        span.innerHTML = "* Insira um arquivo!";
+        span.style.display = 'block';
+      }
+    } catch (error) {
+      alert("Erro ao enviar arquivo: " + error.message);
+    }
+  }
+
+  function setNameFile(e) {
+    const div = document.getElementById('label');
+    var span = document.getElementById('no-file');
+    if (!e) {
+      div.value = 'Upload .CSV';
+      setFile("");
+      span.style.display = 'block';
+    }
+    else {
+      const name = document.getElementById("upload-file").files[0].name;
+      const div  = document.getElementById('label');
+    
+      if (name == "") {
+        div.value = "Upload .CSV"
+      }
+      else {
+        setFile(document.getElementById('upload-file').files[0]);
+        span.style.display = 'none';
+        div.value = name;
+      }
+    }
+  }
+
+  return (
+    <div>
+      <form onSubmit={handleCadastro}>
+        <div id="content">
+          <input id="label" disabled defaultValue="Upload .CSV"/>
+          <label id="image-upload">
+            <input
+              id="upload-file"
+              name="upload-photo"
+              type="file"
+              onChange={e => setNameFile(e.target.value)}
+              accept=".csv,, text/csv"
+            />
+          </label>
+          <button color="secondary" type="submit" id="enviar">Enviar</button>
+
+        </div>
+        <p id="no-file"> Teste  </p>
+      </form>
       
-        <Fab color="primary" size="small" component="span" aria-label="add">
-          <AddIcon />
-        </Fab> */}
-        <h2>Helo World</h2>
-      </label>
-    );
-}
+    </div>
+  );
+  }
 
 export default Uploads;
