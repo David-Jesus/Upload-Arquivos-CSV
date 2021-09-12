@@ -18,7 +18,7 @@ router.post("/products", multerConfig.single("file"), async function (req, res) 
     const { file } = req;
     console.log(file.originalname);
     return res.json({});
-    ///teste excluir o que está acima
+    ///teste excluir o que está acim
     // const { file } = req;
     const { buffer } = file;
 
