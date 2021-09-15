@@ -1,8 +1,8 @@
 #container-table {
     width: 80%;
     margin: 0 auto;
+    margin-top: 50px;
 }
 body {
     background-color: rgb(182, 182, 182);
-    padding-top: 5%;
 }
