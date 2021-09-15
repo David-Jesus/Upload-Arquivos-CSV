@@ -15,11 +15,11 @@ const product = {
 }
 
 router.post("/products", multerConfig.single("file"), async function (req, res) {
-    const { file } = req;
-    console.log(file.originalname);
-    return res.json({});
-    ///teste excluir o que está acim
     // const { file } = req;
+    // console.log(file.originalname);
+    // return res.json({});
+    ///teste excluir o que está acim
+    const { file } = req;
     const { buffer } = file;
 
     const readableFile = new Readable();
@@ -47,17 +47,40 @@ router.post("/products", multerConfig.single("file"), async function (req, res) 
         });
     }
 
-    for await (let{code_bar, description, price, quantity} of products) {
-        await client.products.create({
-            data: {
-                code_bar,
-                description,
-                price,
-                quantity,
-            },
-        });
-    }
+    // for await (let{code_bar, description, price, quantity} of products) {
+    //     await client.products.create({
+    //         data: {
+    //             code_bar,
+    //             description,
+    //             price,
+    //             quantity,
+    //         },
+    //     });
+    // }
     // return res.json(products);
+
+        // var result = "";
+        for await (let{code_bar, description, price, quantity} of products) {
+            await client.products.create({
+                data: {
+                    code_bar,
+                    description,
+                    price,
+                    quantity,
+                },
+            });
+        }
+        if(products != "") {
+            console.log("teste ok")
+            return res.status(200).json(products);
+        }
+        return res.status(401).json(products);
 });
+
+router.get('/products', async (req, res) => {
+    const products = await client.products.findMany();
+    console.log(products)
+    res.json(products);
+})
 
 module.exports = router;

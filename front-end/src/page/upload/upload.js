@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-// import TextField from '@material-ui/core/TextField';
-import './upload.css'
-import jquery from './jquery';
+import './upload.css';
 import api from '../service/api';
 
 function Uploads() {
